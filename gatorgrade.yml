@@ -1,0 +1,100 @@
+- description: "[BEACON] Program runs and mentions the adventurer's own name"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_expedition.py::test_program_runs_and_prints
+
+- description: "[BEACON] Turns the beacon on when asked"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_expedition.py::test_beacon_on
+
+- description: "[BEACON] Leaves the beacon off when declined"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_expedition.py::test_beacon_off
+
+- description: "[CAVE] Walking-steps loop prints the right number of steps"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_expedition.py::test_walking_steps
+
+- description: "[CAVE] Steps are clamped to 10 when too high"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_expedition.py::test_steps_clamp_high
+
+- description: "[CAVE] Steps are clamped to 1 when too low"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_expedition.py::test_steps_clamp_low
+
+- description: "[CAVE] Countdown counts down correctly"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_expedition.py::test_countdown
+
+- description: "[CAVE] Countdown is clamped to 10 when too high"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_expedition.py::test_countdown_clamp_high
+
+- description: "[CAVE] Countdown is clamped to 3 when too low"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_expedition.py::test_countdown_clamp_low
+
+- description: "[CAVE] Star pattern forms a five-row triangle"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_expedition.py::test_star_pattern
+
+- src/main.py:
+  - description: "[BEACON] No TODO markers remain in main.py"
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+  - description: "[BEACON] Contains at least eight comments"
+    check: CountSingleLineComments
+    options:
+      language: Python
+      count: 8
+      exact: false
+  - description: "[CAVE] Uses for loops at least four times"
+    check: MatchFileRegex
+    options:
+      regex: "\\bfor\\b"
+      count: 4
+      exact: false
+  - description: "[CAVE] Does not use while loops (this lab is for loops only)"
+    check: MatchFileRegex
+    options:
+      regex: "\\bwhile\\b"
+      count: 0
+      exact: true
+  - description: "[BEACON] Uses if at least three times"
+    check: MatchFileRegex
+    options:
+      regex: "\\bif\\b"
+      count: 3
+      exact: false
+  - description: "[CAVE] Uses range() at least four times"
+    check: MatchFileRegex
+    options:
+      regex: "range\\("
+      count: 4
+      exact: false
+
+- docs/summary.md:
+  - description: "[SUMMARY] The summary document contains no TODOs"
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+  - description: "[SUMMARY] The summary document meets the word count"
+    check: CountFileWords
+    options:
+      count: 150
+      exact: false

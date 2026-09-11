@@ -1,0 +1,21 @@
+[project]
+name = "lab-02-cave-expedition"
+version = "1.0.0"
+requires-python = ">=3.11"
+dependencies = [
+    "gatorgrade",
+    "pytest",
+    "mockro",
+    "mpremote",
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "src"
+]
+testpaths = [
+    "tests"
+]
+filterwarnings = [
+    "ignore::pytest.PytestAssertRewriteWarning",
+]
