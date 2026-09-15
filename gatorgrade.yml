@@ -1,32 +1,32 @@
-- description: "[BEACON] Program runs and mentions the keeper's own name"
+- description: "[BEACON] Program runs and mentions your own name"
   check: ExecuteCommand
   options:
     command: uv run pytest tests/test_beacon.py::test_program_runs_and_prints
 
-- description: "[BEACON] Turns the beacon on when asked"
+- description: "[BEACON] Turns the tower light on when asked"
   check: ExecuteCommand
   options:
     command: uv run pytest tests/test_beacon.py::test_beacon_on
 
-- description: "[BEACON] Leaves the beacon dark when declined"
+- description: "[BEACON] Leaves the tower dark when declined"
   check: ExecuteCommand
   options:
     command: uv run pytest tests/test_beacon.py::test_beacon_off
 
-- description: "[AIM] Aiming north puts 3 villages in sight"
+- description: "[AIM] Aiming at town puts 3 cars in sight"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_aim_north
+    command: uv run pytest tests/test_beacon.py::test_aim_town
 
-- description: "[AIM] Aiming south puts 1 village in sight"
+- description: "[AIM] Aiming at the road puts 1 car in sight"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_aim_south
+    command: uv run pytest tests/test_beacon.py::test_aim_road
 
-- description: "[AIM] Any other answer aims east and puts 2 villages in sight"
+- description: "[AIM] Any other answer aims at the woods and puts 2 cars in sight"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_aim_east
+    command: uv run pytest tests/test_beacon.py::test_aim_woods
 
 - description: "[WIND] A reading of 150 or more is CRITICAL"
   check: ExecuteCommand
@@ -53,20 +53,20 @@
   options:
     command: uv run pytest tests/test_beacon.py::test_wind_boundary_is_inclusive
 
-- description: "[SIGNAL] The code and enough charge together relay the signal"
+- description: "[RIDE] The code and enough charge together get you picked up"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_signal_relayed_with_code_and_charge
+    command: uv run pytest tests/test_beacon.py::test_ride_picked_up_with_code_and_charge
 
-- description: "[SIGNAL] The code with too little charge fades out"
+- description: "[RIDE] The code with too little charge strands you"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_signal_faded_when_charge_is_low
+    command: uv run pytest tests/test_beacon.py::test_ride_stranded_when_charge_is_low
 
-- description: "[SIGNAL] A full charge never sends the signal without the code"
+- description: "[RIDE] A full charge never answers the truck without the code"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_signal_silent_without_code
+    command: uv run pytest tests/test_beacon.py::test_ride_left_behind_without_code
 
 - src/main.py:
   - description: "[LOG] No TODO markers remain in main.py"
