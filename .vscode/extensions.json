@@ -3,6 +3,6 @@
         "ms-python.python",
         "visualstudioexptteam.vscodeintellicode",
         "ms-python.vscode-pylance",
-        "BareMetal.uv-mpremote"
+        "paulober.pico-w-go"
     ]
 }

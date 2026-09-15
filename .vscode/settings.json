@@ -33,8 +33,5 @@
   "python.analysis.extraPaths": [
       ".stubs",
       "src"
-  ],
-  "mpremote.command": "uv run mpremote",
-  "mpremote.srcSubdirectory": "src",
-  "mpremote.serialPort.skip": "true"
+  ]
 }

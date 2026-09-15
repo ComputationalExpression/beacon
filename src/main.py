@@ -1,9 +1,10 @@
-"""Cave Expedition.
+"""Beacon.
 
 CMPSC 100: Computational Expression, Lab 2
 
-Meet the Raspberry Pi Pico 2 W and control its built-in LED, then use that
-LED as a beacon through a short cave expedition told in for loops.
+Meet the Raspberry Pi Pico 2 W. Its built-in LED is a hilltop signal beacon,
+and you are its keeper on the night a storm comes in. Every decision you make
+tonight, the beacon answers with light.
 
 Author: TODO
 """
@@ -16,81 +17,89 @@ def main():
     led = Pin("LED", Pin.OUT)
 
     print("=" * 50)
-    print("CAVE EXPEDITION: BEACON CHECK")
+    print("BEACON")
     print("=" * 50)
 
-    # ===== Part One: Beacon Check =====
-    # Everything in this part uses only what you already know: input(), if/else.
+    # ===== Stage One: Light the Beacon =====
 
-    # TODO 1: ask the adventurer's name, save it to a variable called `name`
+    # TODO 1: ask the keeper's name, save it to a variable called `name`
 
-    # TODO 2: ask "yes" or "no" for whether to turn on the beacon before
-    # entering the cave, save it to a variable called `beacon_on`
+    # TODO 2: ask "yes" or "no" about lighting the beacon now that night has
+    # fallen, save the answer to a variable called `beacon_on`
 
     # TODO 3: use if/else on beacon_on
-    # if "yes": call led.on(), then print a message using `name` that the
-    # beacon glows
-    # else: call led.off(), then print a message using `name` that the
+    # if it is "yes": call led.on(), then print a message that uses `name` and
+    # says the beacon glows
+    # else: call led.off(), then print a message that uses `name` and says the
     # beacon stays dark
 
-    # One pulse, so the beacon visibly responds whichever way it started
+    # One pulse, so the beacon visibly answers whichever way it started
     led.on()
     time.sleep(0.3)
     led.off()
     time.sleep(0.3)
     print("Beacon signal confirmed.")
 
-    print()
-    print("=" * 50)
-    print("PART TWO: INTO THE CAVE")
-    print("=" * 50)
-
-    # ===== Part Two: Into the Cave =====
-    # This part uses for loops. Come back to it after Monday's loop lecture
-    # -- Part One above is everything you need for this Friday.
-
-    # TODO 4: ask how many steps into the darkness (1-10), save to `steps`,
-    # convert it to an int
-    # TODO 5: use if statements to clamp steps: if greater than 10, set it
-    # to 10; if less than 1, set it to 1
-
-    print("You start walking, beacon pulsing with every step...")
-    # TODO 6: use a for loop with range(1, steps + 1) so the loop variable
-    # counts each step starting at 1
-    # For each step:
-    #   - print "  Step {step}: the passage narrows around you."
-    #   - turn the beacon on, sleep 0.2 seconds, turn it off, sleep 0.2 seconds
-    print("You reach a wide chamber and catch your breath.")
-
-    # TODO 7: ask how many seconds the countdown should last (3-10), save to
-    # `seconds`, convert it to an int
-    # TODO 8: use if statements to clamp seconds: if greater than 10, set it
-    # to 10; if less than 3, set it to 3
-
-    print("The chamber counts down with you:")
-    # TODO 9: use a for loop that counts DOWN from seconds to 1
-    # range() can step backwards if you give it a negative step: figure out
-    # what starting value, ending value, and step count down to 1
-    # For each number:
-    #   - print "  {remaining}..."
-    #   - turn the beacon on, sleep 0.15 seconds, turn it off, sleep 0.15
-    #     seconds
-    print("The mechanism falls silent. A passage opens ahead.")
-
-    print("A wall of ancient stars waits to be traced:")
-    pattern_size = 5
-    # TODO 10: build a triangle of stars, five rows tall
-    # Outer loop: for row in range(1, pattern_size + 1)
-    # For each row:
-    #   - build a string `line` that starts empty, then add "* " to it
-    #     `row` times using an inner for loop
-    #   - print(line) once the inner loop finishes
-    print("The stars align, and the final passage reveals itself.")
+    # ===== Stage Two: Aim the Beacon =====
 
     print()
+    print("The beacon turns on its mount.")
+
+    # TODO 4: ask which way to aim it, "north", "south", or "east", and save
+    # the answer to a variable called `direction`
+
+    # TODO 5: use if/elif/else on `direction` to set a variable called
+    # `villages` and print how many villages can see the light that way
+    # "north": 3 villages
+    # "south": 1 village
+    # anything else: 2 villages
+
+    # ===== Stage Three: The Wind Gauge =====
+
+    print()
+
+    # TODO 6: ask the wind gauge reading in km/h (0-200), save it to `wind`,
+    # and convert it to an int
+
+    # TODO 7: use an if/elif/elif/else chain to set a variable called
+    # `wind_status` and print a matching message
+    # 150 or more: "CRITICAL"
+    # 80 or more: "HIGH"
+    # 20 or more: "STEADY"
+    # anything else: "CALM"
+    # Order matters here. A reading of 180 is greater than every one of those
+    # numbers, so whichever test you put first is the one that claims it
+    # In the CRITICAL branch only, also flash the beacon three times, 0.1
+    # seconds on and 0.1 seconds off each time: the storm warning
+
+    # ===== Stage Four: The Answering Light =====
+
+    print()
+    print("A light flickers on the far ridge. The next keeper is waiting.")
+
+    # TODO 8: ask whether the keeper has tonight's signal code ("yes"/"no"),
+    # save it to `has_code`, then ask the beacon charge percentage (0-100),
+    # save it to `charge`, and convert that one to an int
+
+    # TODO 9: the signal needs BOTH the code and a charge of 40 or more, so
+    # put one if inside another
+    # outer if, has_code is "yes":
+    #     inner if, charge is 40 or more: led.on(), set `outcome` to
+    #     "RELAYED", print that the beacon blazes across the ridge
+    #     inner else: led.off(), set `outcome` to "FADED", print that the
+    #     beacon gutters out mid-signal
+    # outer else: led.off(), set `outcome` to "SILENT", print that no signal
+    # can go out without the code
+    # The inner if belongs to the outer one, and its indentation is what says
+    # so. Nothing else in Python marks where a block starts and ends
+
+    print()
     print("=" * 50)
-    print("EXPEDITION COMPLETE")
-    print("=" * 50)
+
+    # TODO 10: print the keeper's log, one line each, using f-strings
+    # "KEEPER'S LOG: {name}", then a line of 50 "=" characters, then
+    # "Aimed: {direction}", "Villages in sight: {villages}",
+    # "Wind reading: {wind_status}", and "Final status: {outcome}"
 
 
 if __name__ == "__main__":

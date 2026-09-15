@@ -1,6 +1,6 @@
 name: Code Review
 description: A code review conducted with a Technical Leader (TL) or the course instructor.
-title: "Code Review: Lab 2, Cave Expedition"
+title: "Code Review: Lab 2, Beacon"
 body:
   - type: markdown
     attributes:
@@ -40,9 +40,9 @@ body:
       label: Code walkthrough
       description: Check each topic the author explained adequately
       options:
-        - label: "The author can explain how the if/else decided whether the beacon turned on or off"
-        - label: "The author can explain what range(1, steps + 1) and range(seconds, 0, -1) each produce, and why"
-        - label: "The author can explain how the inner loop builds each row of the star pattern, one \"* \" at a time"
+        - label: "The author can explain how the if/else decided whether the beacon lit or stayed dark"
+        - label: "The author can explain why the wind chain is ordered strongest first, and what a reading of 180 would do under a different ordering"
+        - label: "The author can explain what the indentation of the answering light's inner if tells Python, and what changes if the two checks sit side by side"
         - label: "The author described their process well, communicating confidence and understanding of their own code"
   - type: textarea
     attributes:

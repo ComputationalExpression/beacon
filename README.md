@@ -1,4 +1,4 @@
-# Lab 2: Cave Expedition
+# Lab 2: Beacon
 
 |Item |       |
 |:----|:------|
@@ -6,9 +6,9 @@
 |Due |See the [course schedule](https://computationalexpression.com/schedule/) |
 |Progress |[![Grade](../../actions/workflows/main.yml/badge.svg?branch=main)](../../actions/workflows/main.yml) |
 
-This lab spans two weeks. Part One turns your Raspberry Pi Pico 2 W's built-in LED into a
-beacon using what you already know: conditionals. Part Two sends that beacon through a cave
-expedition told entirely in `for` loops, once next week's lecture covers them.
+Your Raspberry Pi Pico 2 W's built-in LED is a hilltop signal beacon, and you are its keeper
+on the night a storm comes in. Every stage is a condition your program evaluates, and the beacon
+answers with light each time. No two nights have to end the same way.
 
 ## Course learning outcomes
 
@@ -24,94 +24,96 @@ Specifically, by the end of this lab you should be able to:
 
 * control a physical device's output with `machine.Pin` and `time.sleep`
 * choose the correct branch of an `if`/`else` based on a condition
-* write a `for` loop over `range()`, including a loop that counts backward
-* nest one `for` loop inside another to build a two-dimensional pattern
-* clamp a user-provided number into a valid range with `if` statements
+* order an `if`/`elif`/`else` chain so that each branch can actually be reached
+* nest one `if` inside another, and explain what the indentation tells Python
+* store a value inside a branch and use it after the branch has finished
 
 ## Meet the Pico 2 W
 
 Your Pico 2 W is a microcontroller, not a small computer: your program runs directly against
 the hardware, with nothing in between. `Pin("LED", Pin.OUT)` gives you control of the board's
-built-in LED; `led.on()` and `led.off()` send it 3.3V and 0V. See Wednesday's slides for the
-fuller explanation of what is happening electrically.
+built-in LED; `led.on()` and `led.off()` send it 3.3V and 0V. See Week 4 Session 2's slides for
+the fuller explanation of what is happening electrically.
 
 **Setup, one time only:**
 
 1. Install the **MicroPico** extension by **paulober** in VS Code, if you have not already
-   (from the [setup guide](https://computationalexpression.com/setup/))
+   (the steps are on the [Week 4 Session 2 slides](https://computationalexpression.com/slides/week-04-session-2/))
 2. Plug in your Pico 2 W over USB
 3. Press `Ctrl/Cmd+Shift+P`, then run **MicroPico: Initialize MicroPico**
-4. Confirm you see **MicroPico** in the bottom status bar
+4. Confirm the bottom status bar reads **Pico Connected**
 
 If it will not connect, ask an instructor or TL. Do not troubleshoot hardware alone the night
 before it is due.
 
-## Part One: Beacon Check
+## The four stages
 
-Released Friday, due whenever the lab as a whole is due. Uses only `input()` and `if`/`else`,
-nothing from next week.
+Everything this lab asks for was covered by the day it was released. There is no loop anywhere
+in it: each stage is a decision, and decisions are all you need.
 
-Ask the adventurer's name and whether to turn the beacon on, then use `if`/`else` on the
-answer to call `led.on()` or `led.off()` and print the matching message. The rest of the file
-(the confirmation pulse, and everything under `PART TWO`) is already provided.
+**Stage One: Light the Beacon.** Ask the keeper's name and whether to light the beacon now
+that night has fallen, then use `if`/`else` to call `led.on()` or `led.off()` and print the
+matching message.
 
-## Part Two: Into the Cave
+**Stage Two: Aim the Beacon.** The beacon turns on its mount, and three directions are open. An
+`if`/`elif`/`else` on the answer decides how many villages can see the light, and that number is
+still there at the end of the program, in the keeper's log.
 
-Come back to this part after Monday's loop lecture. It uses `for` loops throughout, and
-nothing here requires anything beyond what Monday covers.
+**Stage Three: The Wind Gauge.** A number the user types becomes one of four wind statuses
+through an `if`/`elif`/`elif`/`else` chain. The order of that chain is the entire problem: a
+reading of `180` is greater than every threshold in it, so the branch you write first is the
+branch that claims it. The `CRITICAL` branch also flashes the beacon three times, the storm
+warning every village knows.
 
-* **Walking Steps**: a `for` loop over `range(1, steps + 1)` pulses the beacon once per step
-* **Countdown Chamber**: a `for` loop over `range(seconds, 0, -1)` counts backward, pulsing
-  faster each time
-* **Star Pattern**: a loop inside a loop builds a five-row triangle, one `"* "` at a time
-
-Both `steps` and `seconds` are numbers the user types in, clamped into a valid range with `if`
-statements before the loop that uses them runs.
+**Stage Four: The Answering Light.** A light flickers on the far ridge, and the next keeper is
+waiting. Your signal goes out only when you have tonight's signal code *and* the beacon holds at
+least 40 percent charge. You have not been shown a way to write "and" yet, so write it as one
+`if` inside another: the charge question is only worth asking once the code is in hand. The
+indentation is the only thing that tells Python the second check belongs to the first.
 
 ### Expected output
 
+One whole run, with `yes`, `north`, `180`, `yes`, and `80` as the answers:
+
 ```text
 ==================================================
-CAVE EXPEDITION: BEACON CHECK
+BEACON
 ==================================================
-Adventurer, what is your name? JJ
-Turn on your beacon before you enter the cave? (yes/no): yes
-JJ, your beacon glows. You step toward the cave entrance.
+Keeper, what is your name? JJ
+Night has fallen. Light the beacon? (yes/no): yes
+JJ, your beacon glows over the valley.
 Beacon signal confirmed.
 
-==================================================
-PART TWO: INTO THE CAVE
-==================================================
-How many steps into the darkness? (1-10): 3
-You start walking, beacon pulsing with every step...
-  Step 1: the passage narrows around you.
-  Step 2: the passage narrows around you.
-  Step 3: the passage narrows around you.
-You reach a wide chamber and catch your breath.
-An old mechanism starts counting down. Seconds? (3-10): 3
-The chamber counts down with you:
-  3...
-  2...
-  1...
-The mechanism falls silent. A passage opens ahead.
-A wall of ancient stars waits to be traced:
-* 
-* * 
-* * * 
-* * * * 
-* * * * * 
-The stars align, and the final passage reveals itself.
+The beacon turns on its mount.
+Which way do you aim it? (north/south/east): north
+Three villages sit in the northern valley. All 3 see your light.
+
+What does the wind gauge read, in km/h? (0-200): 180
+The gale shakes the tower. Warn everyone below.
+
+A light flickers on the far ridge. The next keeper is waiting.
+Do you have tonight's signal code? (yes/no): yes
+Beacon charge remaining, as a percentage? (0-100): 80
+The code checks out, and your beacon blazes across the ridge.
 
 ==================================================
-EXPEDITION COMPLETE
+KEEPER'S LOG: JJ
 ==================================================
+Aimed: north
+Villages in sight: 3
+Wind reading: CRITICAL
+Final status: RELAYED
 ```
+
+The narrative lines are yours to word. The log lines at the bottom, and the four status words
+`CRITICAL`, `HIGH`, `STEADY`, and `CALM`, have to match exactly, because the automated checks
+read them.
 
 ## Getting started
 
-Open `src/main.py` and work through the `TODO` markers in order, Part One before Part Two. Run
-it on your Pico as you go, using MicroPico's **Run current file** command, or from the terminal
-against a plain Python interpreter for the parts that do not depend on real hardware timing:
+Open `src/main.py` and work through the `TODO` markers in order. Run it on your Pico as you go,
+using MicroPico's **Run current file** command, or from the terminal against a plain Python
+interpreter for the parts that do not depend on real hardware timing:
 
 ```text
 uv run python src/main.py
@@ -127,7 +129,7 @@ This lab is worth **4.5 points**, the standard value for a lab in this course.
 
 | Component | Points | What it measures |
 |:----------|:-------|:-----------------|
-| Programming | 3.0 | The 10 code checks below. Your score is the fraction passed, times 3.0 |
+| Programming | 3.0 | The 18 code checks below. Your score is the fraction passed, times 3.0 |
 | Code quality and style | 1.0 | Descriptive names (0.3), clear organization (0.3), useful comments (0.4) |
 | Summary writing | 0.5 | A complete, thoughtful `docs/summary.md` |
 | **Total** | **4.5** | |
@@ -140,15 +142,16 @@ Run the checks yourself, as many times as you like, before you submit:
 uv run gatorgrade --config gatorgrade.yml
 ```
 
-Ten of the checks are about your code:
+Eighteen of the checks are about your code:
 
-* the beacon turns on for `"yes"` and off for anything else
-* the walking-steps loop prints the right number of steps, clamped between 1 and 10
-* the countdown counts down correctly, clamped between 3 and 10
-* the star pattern forms a five-row triangle
-* no `TODO` markers remain in `src/main.py`, and it uses `for` loops (never `while`)
+* the beacon lights for `"yes"` and stays dark for anything else
+* each of the three directions produces the right number of villages
+* each of the four wind statuses comes out of the right range, including exactly `80`
+* the signal is relayed with the code and enough charge, fades with the code alone, and stays
+  silent without the code no matter how full the beacon is
+* no `TODO` markers remain, and neither the word `for` nor the word `while` appears anywhere
 
-Partial credit is proportional: passing 8 of 10 checks earns `(8 ÷ 10) × 3.0 = 2.4` points.
+Partial credit is proportional: passing 15 of 18 checks earns `(15 ÷ 18) × 3.0 = 2.5` points.
 
 > [!NOTE]
 > Automated results are preliminary. Your instructor sets the final grade.
@@ -177,9 +180,11 @@ Two things happen, with you present:
 The reviewer opens a **Code Review** issue on your repository and fills it out during the
 conversation. Come prepared to explain:
 
-* how the `if`/`else` decided whether the beacon turned on or off
-* what `range(1, steps + 1)` and `range(seconds, 0, -1)` each produce, and why
-* how the inner loop builds each row of the star pattern, one `"* "` at a time
+* how the `if`/`else` decided whether the beacon lit or stayed dark
+* why a reading of `180` reaches the branch you meant it to reach, and what a different ordering
+  of that chain would do to it
+* what the indentation of the answering light's inner `if` tells Python, and what changes if
+  those two checks sit side by side instead
 
 **Your review must be completed during the lab session on the day this lab is due.** If you
 cannot attend that lab and complete your review then, make arrangements to complete it
@@ -187,7 +192,7 @@ beforehand at office hours:
 
 * **Technical Leaders**, listed on the calendar at
   [cis.allegheny.edu/community/news](https://www.cis.allegheny.edu/community/news/)
-* **Dr. Jumadinova**, [book a time](https://janyljumadinova.com/schedule). Drop-ins are welcome
+* **Dr. Jumadinova**, [book a time](https://janyljumadinova.com/office-hours/). Drop-ins are welcome
   during posted hours, but students who booked are seen first
 
 ## Submitting
@@ -200,7 +205,7 @@ graded. If you need more time, apply a late token with
 
 ```text
 git add src/main.py docs/summary.md
-git commit -m "Complete the cave expedition"
+git commit -m "Complete the beacon"
 git push
 ```
 

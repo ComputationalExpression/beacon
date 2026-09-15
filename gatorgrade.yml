@@ -1,90 +1,98 @@
-- description: "[BEACON] Program runs and mentions the adventurer's own name"
+- description: "[BEACON] Program runs and mentions the keeper's own name"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_expedition.py::test_program_runs_and_prints
+    command: uv run pytest tests/test_beacon.py::test_program_runs_and_prints
 
 - description: "[BEACON] Turns the beacon on when asked"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_expedition.py::test_beacon_on
+    command: uv run pytest tests/test_beacon.py::test_beacon_on
 
-- description: "[BEACON] Leaves the beacon off when declined"
+- description: "[BEACON] Leaves the beacon dark when declined"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_expedition.py::test_beacon_off
+    command: uv run pytest tests/test_beacon.py::test_beacon_off
 
-- description: "[CAVE] Walking-steps loop prints the right number of steps"
+- description: "[AIM] Aiming north puts 3 villages in sight"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_expedition.py::test_walking_steps
+    command: uv run pytest tests/test_beacon.py::test_aim_north
 
-- description: "[CAVE] Steps are clamped to 10 when too high"
+- description: "[AIM] Aiming south puts 1 village in sight"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_expedition.py::test_steps_clamp_high
+    command: uv run pytest tests/test_beacon.py::test_aim_south
 
-- description: "[CAVE] Steps are clamped to 1 when too low"
+- description: "[AIM] Any other answer aims east and puts 2 villages in sight"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_expedition.py::test_steps_clamp_low
+    command: uv run pytest tests/test_beacon.py::test_aim_east
 
-- description: "[CAVE] Countdown counts down correctly"
+- description: "[WIND] A reading of 150 or more is CRITICAL"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_expedition.py::test_countdown
+    command: uv run pytest tests/test_beacon.py::test_wind_critical
 
-- description: "[CAVE] Countdown is clamped to 10 when too high"
+- description: "[WIND] A reading of 80 or more is HIGH"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_expedition.py::test_countdown_clamp_high
+    command: uv run pytest tests/test_beacon.py::test_wind_high
 
-- description: "[CAVE] Countdown is clamped to 3 when too low"
+- description: "[WIND] A reading of 20 or more is STEADY"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_expedition.py::test_countdown_clamp_low
+    command: uv run pytest tests/test_beacon.py::test_wind_steady
 
-- description: "[CAVE] Star pattern forms a five-row triangle"
+- description: "[WIND] Anything below 20 is CALM"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_expedition.py::test_star_pattern
+    command: uv run pytest tests/test_beacon.py::test_wind_calm
+
+- description: "[WIND] Exactly 80 counts as HIGH, not STEADY"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_beacon.py::test_wind_boundary_is_inclusive
+
+- description: "[SIGNAL] The code and enough charge together relay the signal"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_beacon.py::test_signal_relayed_with_code_and_charge
+
+- description: "[SIGNAL] The code with too little charge fades out"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_beacon.py::test_signal_faded_when_charge_is_low
+
+- description: "[SIGNAL] A full charge never sends the signal without the code"
+  check: ExecuteCommand
+  options:
+    command: uv run pytest tests/test_beacon.py::test_signal_silent_without_code
 
 - src/main.py:
-  - description: "[BEACON] No TODO markers remain in main.py"
+  - description: "[LOG] No TODO markers remain in main.py"
     check: MatchFileFragment
     options:
       fragment: TODO
       count: 0
       exact: true
-  - description: "[BEACON] Contains at least eight comments"
+  - description: "[LOG] Contains at least eight comments"
     check: CountSingleLineComments
     options:
       language: Python
       count: 8
       exact: false
-  - description: "[CAVE] Uses for loops at least four times"
+  - description: "[LOG] Conditionals only: the word `for` appears nowhere in main.py"
     check: MatchFileRegex
     options:
       regex: "\\bfor\\b"
-      count: 4
-      exact: false
-  - description: "[CAVE] Does not use while loops (this lab is for loops only)"
+      count: 0
+      exact: true
+  - description: "[LOG] Conditionals only: the word `while` appears nowhere in main.py"
     check: MatchFileRegex
     options:
       regex: "\\bwhile\\b"
       count: 0
       exact: true
-  - description: "[BEACON] Uses if at least three times"
-    check: MatchFileRegex
-    options:
-      regex: "\\bif\\b"
-      count: 3
-      exact: false
-  - description: "[CAVE] Uses range() at least four times"
-    check: MatchFileRegex
-    options:
-      regex: "range\\("
-      count: 4
-      exact: false
 
 - docs/summary.md:
   - description: "[SUMMARY] The summary document contains no TODOs"

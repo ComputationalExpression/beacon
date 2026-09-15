@@ -9,12 +9,13 @@ this document is `150` words.
 
 TODO
 
-> `range(1, steps + 1)` counts up and `range(seconds, 0, -1)` counts down. What does each of
-> the three numbers inside those calls actually control?
+> Your wind gauge tests the strongest reading first. Explain what a reading of `180` would do if
+> the `20 or more` test came first instead, and why that ordering is the whole difference.
 
 TODO
 
-> The star pattern uses a loop inside a loop. Explain what the outer loop is responsible for,
-> what the inner loop is responsible for, and how they work together to build one row.
+> The answering light needs both the signal code and enough charge, so one `if` sits inside another.
+> Explain what the indentation tells Python here, and what would happen differently if the two
+> checks sat side by side instead of one inside the other.
 
 TODO
