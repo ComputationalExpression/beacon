@@ -41,9 +41,11 @@ the fuller explanation of what is happening electrically.
 
 1. Install the **MicroPico** extension by **paulober** in VS Code, if you have not already
    (the steps are on the [Week 4 Session 2 slides](https://computationalexpression.com/slides/week-04-session-2/))
-2. Plug in your Pico 2 W over USB
-3. Press `Ctrl/Cmd+Shift+P`, then run **MicroPico: Initialize MicroPico**
-4. Confirm the bottom status bar reads **Pico Connected**
+2. Open your `cmpsc100` folder in VS Code (File, then Open Folder). If you have not set up
+   MicroPico in that folder yet: View, then Command Palette, type `MicroPico`, and choose
+   **MicroPico: Initialize MicroPico Project**
+3. Plug in your Pico 2 W over USB. The board shows no light of its own; that is normal
+4. Confirm the bar along the bottom of the window reads **Pico Connected**
 
 If it will not connect, ask an instructor or TL. Do not troubleshoot hardware alone the night
 before it is due.
@@ -114,9 +116,9 @@ read them.
 
 ## Getting started
 
-Open `src/main.py` and work through the `TODO` markers in order. Run it on your Pico as you go,
-using MicroPico's **Run current file** command, or from the terminal against a plain Python
-interpreter for the parts that do not depend on real hardware timing:
+Open `src/main.py` and work through the `TODO` markers in order. Run it on your Pico as you go
+by clicking **Run** in the bar along the bottom of the window, or from the terminal against a
+plain Python interpreter for the parts that do not depend on real hardware timing:
 
 ```text
 uv run python src/main.py
