@@ -34,16 +34,41 @@ body:
   - type: markdown
     attributes:
       value: |
-        Conduct a short walkthrough with the programmer, marking the topics appropriately explained.
+        Walk through the code with the author, with the program running on their Pico. **Ask one
+        question per concept below, in your own words, about their own code.** Reviews happen at a
+        table where other students can hear, so vary the question from student to student: the
+        concept stays the same, the question does not. Pick from these or make up your own.
+
+        **Conditionals with hardware (Stage One)**
+        - Run it with `no`. Which line turned the LED off, and which comparison chose that branch?
+        - What would the log say if the answer were `YES` in capitals, and why?
+        - Point to the line where `light` gets its value. Why does it appear in both branches?
+
+        **Chain order (Stage Two)**
+        - If the `20 or more` test came first, what would `180` print, and why?
+        - Why is exactly `150` CRITICAL and not HIGH in your chain?
+        - Change one number so that `80` becomes STEADY. What did you change, and what else moved?
+
+        **Combining conditions (Stage Three)**
+        - If the `or` were an `and`, which of the four answer pairs would log differently?
+        - Which answer pair makes only the right-hand side of your `or` True?
+        - Could this stage be written without `or`? What would it cost?
+
+        **Two conditions, three endings (Stage Four)**
+        - With no code and a battery at `100`, why LEFT BEHIND and not PICKED UP?
+        - Show me where STRANDED is decided. What has to be true to get there?
+        - You wrote it nested, or with `and`. Say the first line of the other version out loud.
+
+        Check a concept when the answer shows the understanding described, whichever question you asked.
   - type: checkboxes
     attributes:
       label: Code walkthrough
-      description: Ask each question below about the author's own code, with the program running on their Pico. Check the box when the answer covers the point in parentheses.
+      description: One box per concept. Check it when the author's answer to your question showed the understanding described.
       options:
-        - label: "Light the Tower. Run it with no. Which line turned the LED off, and which comparison chose that branch? (led.off() in the else, reached because switch_on == \"yes\" was False)"
-        - label: "The Wind Gauge. If the 20 or more test came first, what would 180 print, and why? (STEADY, because Python runs the first branch that is True and skips the rest, so the strongest test must come first)"
-        - label: "The Tree Line. If the or were an and, which of the four answer pairs would log differently? (the two pairs with one yes would log CLEAR instead of NOT ALONE, because and needs both)"
-        - label: "The Ride Home. With no code and a battery at 100, why LEFT BEHIND and not PICKED UP? (the battery is only consulted once the code is known: the charge check is indented inside the code check, or and needs both to hold)"
+        - label: "Conditionals with hardware: the author can trace which branch ran for a given answer, name the comparison that chose it, and point to the line that changed the LED"
+        - label: "Chain order: the author can explain why the strongest test comes first and predict what a reordered chain would print"
+        - label: "Combining conditions: the author can say which answer pairs make their or True, and how and would change the outcome"
+        - label: "Two conditions, three endings: the author can explain why the battery only counts once the code is known, in whichever form they wrote it"
         - label: "The author described their process well, communicating confidence and understanding of their own code"
   - type: textarea
     attributes:

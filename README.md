@@ -229,16 +229,17 @@ Two things happen, with you present:
 2. **You answer questions about your own code**, including the concepts behind it
 
 The reviewer opens a **Code Review** issue on your repository and fills it out during the
-conversation. The reviewer will ask you, in your own code:
+conversation. The reviewer asks one question about each of four concepts, in their own words
+and about your own code, so the questions differ from student to student. Be ready to:
 
-* **Light the Tower**: with `no` as the answer, which line turned the LED off, and which
-  comparison chose that branch
-* **The Wind Gauge**: what a reading of `180` would print if the `20 or more` test came first,
-  and why
-* **The Tree Line**: which of the four answer pairs would log differently if the `or` were an
-  `and`
-* **The Ride Home**: why no code with a battery at `100` ends `LEFT BEHIND` and not `PICKED UP`,
-  in your version, whether it nests or uses `and`
+* **Conditionals with hardware**: trace which branch ran for a given answer, name the comparison
+  that chose it, and point to the line that changed the LED
+* **Chain order**: explain why the strongest test comes first, and predict what your chain would
+  print if its branches were reordered
+* **Combining conditions**: say which answer pairs make your `or` True, and how `and` would change
+  the outcome
+* **Two conditions, three endings**: explain why the battery only counts once the code is known,
+  in whichever form you wrote it
 
 **Your review must be completed during the lab session on the day this lab is due.** If you
 cannot attend that lab and complete your review then, make arrangements to complete it
