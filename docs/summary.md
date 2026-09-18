@@ -5,7 +5,7 @@ every marker with your own writing, and delete the marker itself. The minimum wo
 this document is `150` words.
 
 > Your wind gauge tests the strongest reading first. Explain what a reading of `180` would do if
-> the `20 or more` test came first instead, and why that ordering is the whole difference.
+> the `20 or more` test came first instead, and why that ordering decides the result.
 
 TODO
 

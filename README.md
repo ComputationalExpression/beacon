@@ -76,7 +76,7 @@ that the sun is down. An `if`/`else` calls `led.on()` or `led.off()`, prints a m
 records `LIT` or `DARK` for the log.
 
 **Stage Two: The Wind Gauge.** A number the user types becomes one of four wind statuses through
-an `if`/`elif`/`elif`/`else` chain. The order of that chain is the entire problem: a reading of
+an `if`/`elif`/`elif`/`else` chain. The order of that chain is what decides the result: a reading of
 `180` is greater than every threshold in it, so the branch you write first is the branch that
 claims it. The `CRITICAL` branch also flashes the light three times, the warning every driver in
 Meadville knows.
@@ -118,7 +118,7 @@ reading, moved, heard, answer code, battery. Keep the questions in that order.
 
 ### Expected output
 
-One whole run, with `yes`, `180`, `yes`, `no`, `yes`, and `80` as the answers:
+One complete run, with `yes`, `180`, `yes`, `no`, `yes`, and `80` as the answers:
 
 ```text
 ==================================================

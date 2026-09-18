@@ -70,7 +70,7 @@
       regex: "\\n( {8,}|\\t{2,})(if|elif)\\b"
       count: 1
       exact: false
-  # Greps the whole file, prose included, so neither word may appear even in a comment.
+  # Greps every line of the file, prose included, so neither word may appear even in a comment.
   - description: "[CODE] Conditionals only, no `for` or `while`: write the three flashes out by hand, one line each"
     check: MatchFileRegex
     options:
