@@ -43,7 +43,8 @@ Specifically, by the end of this lab you should be able to:
 * choose the correct branch of an `if`/`else` based on a condition, and store a value inside it
 * order an `if`/`elif`/`else` chain so that each branch can actually be reached
 * join two conditions into one with `or`, and say when `and` would be wrong
-* nest one `if` inside another, and explain what the indentation tells Python
+* make a decision that needs two things at once, either as one `if` inside another or as one
+  `if` with `and`, and explain why both work
 * print a value three different ways: commas, `+` with `str()`, and an f-string
 
 ## Meet the Pico 2 W
@@ -88,11 +89,11 @@ anything from the trees? Either sign on its own means you are not alone up here,
 
 **Stage Four: The Ride Home.** Headlights flash from the bottom of the hill: your ride, asking
 whether it is safe to come up. You can answer only when you know tonight's answer code *and* the
-tower's backup battery holds at least 40 percent. Write this one as an `if` inside another `if`
-rather than with `and`: the two ways it can go wrong deserve different endings (`STRANDED` when
-the battery dies mid-code, `LEFT BEHIND` when you never knew the code), and a single `and` gives
-both the same `else`. The indentation is the only thing that tells Python the battery check
-belongs inside the code check.
+tower's backup battery holds at least 40 percent, and the two ways it can go wrong deserve
+different endings: `STRANDED` when the battery dies mid-code, `LEFT BEHIND` when you never knew
+the code. Write it either way you like: one `if` inside another, where the battery check is
+indented under the code check, or one `if` with `and` for the pickup followed by an `elif` for
+the code alone. Both reach the same three endings.
 
 ### The tower log
 
@@ -193,7 +194,8 @@ your code:
 * with the code, the battery decides between `PICKED UP` and `STRANDED`; without the code, a
   full battery still logs `LEFT BEHIND`
 * no `TODO` markers remain, there are at least six comments, one `if` joins two conditions with
-  `or` or `and`, one `if` sits inside another, and neither `for` nor `while` appears anywhere
+  `or` or `and`, the ride home is either one `if` inside another or one `if` with `and`, and
+  neither `for` nor `while` appears anywhere
 
 Partial credit is proportional: passing 10 of 13 checks earns `(10 ÷ 13) × 3.0 = 2.3` points.
 
@@ -230,8 +232,8 @@ conversation. Come prepared to explain:
 * why a reading of `180` reaches the branch you meant it to reach, and what a different ordering
   of that chain would do to it
 * which runs of the program would end differently if the tree line's `or` were an `and`
-* why the ride home is nested rather than written with `and`, and what changes if the inner `if`
-  is unindented to sit beside the outer one
+* how your ride home tells `STRANDED` from `LEFT BEHIND`, and how the other way of writing it
+  (nested, or `and` with an `elif`) reaches the same three endings
 
 **Your review must be completed during the lab session on the day this lab is due.** If you
 cannot attend that lab and complete your review then, make arrangements to complete it

@@ -32,7 +32,7 @@
   options:
     command: uv run pytest tests/test_beacon.py::test_tree_line_clear_without_either_sign
 
-- description: "[RIDE] With the code, 80 percent logs PICKED UP and 10 percent logs STRANDED: the inner if/else decides"
+- description: "[RIDE] With the code, 80 percent logs PICKED UP and 10 percent logs STRANDED: the code is checked first, then the battery"
   check: ExecuteCommand
   options:
     command: uv run pytest tests/test_beacon.py::test_ride_charge_decides_once_the_code_is_known
@@ -63,11 +63,12 @@
       regex: "\\n[ \\t]*(if|elif)\\b[^\\n]*\\b(or|and)\\b[^\\n]*:"
       count: 1
       exact: false
-  # An if indented two levels inside main(), so it belongs to another block.
-  - description: "[CODE] One if sits inside another: the battery check is indented under the answer-code check"
+  # Either an if indented two levels inside main(), so it belongs to another block, or an
+  # if/elif line whose condition uses `and`.
+  - description: "[CODE] The ride home is one if inside another, or one if with `and`: either way the code is checked before the battery counts"
     check: MatchFileRegex
     options:
-      regex: "\\n( {8,}|\\t{2,})(if|elif)\\b"
+      regex: "\\n( {8,}|\\t{2,})(if|elif)\\b|\\n[ \\t]*(if|elif)\\b[^\\n]*\\band\\b[^\\n]*:"
       count: 1
       exact: false
   # Greps every line of the file, prose included, so neither word may appear even in a comment.

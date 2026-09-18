@@ -78,17 +78,16 @@ def main():
     # (0-100), save it to `charge`, and convert that one to an int
 
     # TODO 9: the answer needs BOTH the code and a charge of 40 or more, and
-    # the two ways it can go wrong need different messages, so put one if
-    # inside another rather than joining them with `and`
-    # outer if, has_code is "yes":
-    #     inner if, charge is 40 or more: led.on(), set `outcome` to
-    #     "PICKED UP", print that the truck starts up the hill
-    #     inner else: led.off(), set `outcome` to "STRANDED", print that the
-    #     battery dies halfway through the code and the truck turns around
-    # outer else: led.off(), set `outcome` to "LEFT BEHIND", print that the
-    # truck waits, then leaves without you
-    # The inner if belongs to the outer one, and its indentation is what says
-    # so. Nothing else in Python marks where a block starts and ends
+    # the two ways it can go wrong need different messages. Three endings:
+    # code and 40 or more: led.on(), set `outcome` to "PICKED UP", print
+    #     that the truck starts up the hill
+    # code but under 40: led.off(), set `outcome` to "STRANDED", print that
+    #     the battery dies halfway through the code and the truck turns around
+    # no code: led.off(), set `outcome` to "LEFT BEHIND", print that the
+    #     truck waits, then leaves without you
+    # Write it either way: an if on the code with an if/else on the charge
+    # indented inside it, or an if joining both with `and`, then an elif on
+    # the code alone, then an else
 
     print()
     print("=" * 50)

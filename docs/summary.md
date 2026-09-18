@@ -14,8 +14,8 @@ TODO
 
 TODO
 
-> The ride home stays nested, one `if` inside another, even though `and` could join its two
-> checks. What can the nested version say that a single `and` cannot, and what would happen if
-> the inner `if` were unindented to sit beside the outer one?
+> The ride home can be written as one `if` inside another, or as one `if` with `and` followed by
+> an `elif`. Whichever you wrote, explain how yours tells `STRANDED` from `LEFT BEHIND`, and what
+> the other version has to do to reach the same three endings.
 
 TODO
