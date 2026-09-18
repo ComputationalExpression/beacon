@@ -27,9 +27,6 @@
       "reportMissingModuleSource": "none"
   },
   "python.terminal.activateEnvironment": false,
-  "python.analysis.typeshedPaths": [
-      ".stubs"
-  ],
   "python.analysis.extraPaths": [
       ".stubs",
       "src"
