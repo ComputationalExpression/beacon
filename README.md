@@ -12,6 +12,21 @@ the radio tower's red warning light lit. Your Raspberry Pi Pico 2 W's built-in L
 Every stage is a decision your program makes, and the light answers each one. No two nights on
 the hill have to end the same way.
 
+## Contents
+
+* [Course learning outcomes](#course-learning-outcomes)
+* [Meet the Pico 2 W](#meet-the-pico-2-w)
+* [The four stages](#the-four-stages)
+  * [The tower log](#the-tower-log)
+  * [Expected output](#expected-output)
+* [Getting started](#getting-started)
+* [Evaluation](#evaluation)
+  * [Programming, 3.0 points](#programming-30-points)
+  * [Code quality and style, 1.0 point](#code-quality-and-style-10-point)
+  * [Summary writing, 0.5 points](#summary-writing-05-points)
+* [Code review](#code-review)
+* [Submitting](#submitting)
+
 ## Course learning outcomes
 
 This lab addresses the following course learning outcomes:
