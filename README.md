@@ -9,8 +9,8 @@
 Everyone in Meadville knows Radio Tower Hill as Pig Hill, and the 2025 horror film *Pig Hill*
 was built on the legend of what lives up there. Tonight you are alone at the top of it, keeping
 the radio tower's red warning light lit. Your Raspberry Pi Pico 2 W's built-in LED is that light.
-Every stage is a condition your program evaluates, and the light answers each time. No two nights
-on the hill have to end the same way.
+Every stage is a decision your program makes, and the light answers each one. No two nights on
+the hill have to end the same way.
 
 ## Course learning outcomes
 
@@ -25,10 +25,11 @@ integrated development environments (IDEs), command-line tools, and version cont
 Specifically, by the end of this lab you should be able to:
 
 * control a physical device's output with `machine.Pin` and `time.sleep`
-* choose the correct branch of an `if`/`else` based on a condition
+* choose the correct branch of an `if`/`else` based on a condition, and store a value inside it
 * order an `if`/`elif`/`else` chain so that each branch can actually be reached
+* join two conditions into one with `or`, and say when `and` would be wrong
 * nest one `if` inside another, and explain what the indentation tells Python
-* store a value inside a branch and use it after the branch has finished
+* print a value three different ways: commas, `+` with `str()`, and an f-string
 
 ## Meet the Pico 2 W
 
@@ -52,33 +53,57 @@ before it is due.
 
 ## The four stages
 
-Everything this lab asks for was covered by the day it was released. There is no loop anywhere
-in it: each stage is a decision, and decisions are all you need.
+Everything this lab asks for is covered by Monday of Week 5. There is no loop anywhere in it:
+each stage is a decision, and decisions are all you need.
 
 **Stage One: Light the Tower.** Ask the user's name and whether to switch on the tower light now
-that the sun is down, then use `if`/`else` to call `led.on()` or `led.off()` and print the
-matching message.
+that the sun is down. An `if`/`else` calls `led.on()` or `led.off()`, prints a message, and
+records `LIT` or `DARK` for the log.
 
-**Stage Two: Aim the Searchlight.** Headlights are moving on the roads below the tower. An
-`if`/`elif`/`else` on where you aim the searchlight decides how many cars it finds, and that
-number is still there at the end of the program, in the tower log.
+**Stage Two: The Wind Gauge.** A number the user types becomes one of four wind statuses through
+an `if`/`elif`/`elif`/`else` chain. The order of that chain is the entire problem: a reading of
+`180` is greater than every threshold in it, so the branch you write first is the branch that
+claims it. The `CRITICAL` branch also flashes the light three times, the warning every driver in
+Meadville knows.
 
-**Stage Three: The Wind Gauge.** A number the user types becomes one of four wind statuses
-through an `if`/`elif`/`elif`/`else` chain. The order of that chain is the entire problem: a
-reading of `180` is greater than every threshold in it, so the branch you write first is the
-branch that claims it. The `CRITICAL` branch also flashes the light three times, the warning
-every driver in Meadville knows.
+**Stage Three: The Tree Line.** Two points of light blink on at the tree line below you, low to
+the ground and too far apart to be a deer. Do they move when your light hits them? Do you hear
+anything from the trees? Either sign on its own means you are not alone up here, so this is one
+`if` whose condition joins the two answers with `or`. When it holds, you kill the light.
 
 **Stage Four: The Ride Home.** Headlights flash from the bottom of the hill: your ride, asking
 whether it is safe to come up. You can answer only when you know tonight's answer code *and* the
-tower's backup battery holds at least 40 percent. You have not been shown a way to write "and"
-yet, so write it as one `if` inside another: the battery question is only worth asking once the
-code is known. The indentation is the only thing that tells Python the second check belongs to
-the first.
+tower's backup battery holds at least 40 percent. Write this one as an `if` inside another `if`
+rather than with `and`: the two ways it can go wrong deserve different endings (`STRANDED` when
+the battery dies mid-code, `LEFT BEHIND` when you never knew the code), and a single `and` gives
+both the same `else`. The indentation is the only thing that tells Python the battery check
+belongs inside the code check.
+
+### The tower log
+
+The program ends with a log, and the automated checks read **only the log**, never the story.
+Word every message above however you like. The log has six lines, in this order:
+
+```text
+TOWER LOG: JJ
+==================================================
+Tower light: LIT
+Wind reading: CRITICAL
+Tree line: NOT ALONE
+Final status: PICKED UP
+```
+
+The status words are `LIT` or `DARK`; `CRITICAL`, `HIGH`, `STEADY`, or `CALM`; `NOT ALONE` or
+`CLEAR`; `PICKED UP`, `STRANDED`, or `LEFT BEHIND`. Print each line any of the three ways from
+Week 3: `print("Tree line:", tree_line)`, `print("Tree line: " + tree_line)`, or
+`print(f"Tree line: {tree_line}")` all pass. The checks forgive extra spaces and letter case.
+
+The checks type the answers in the order the starter asks them: name, tower light, wind
+reading, moved, heard, answer code, battery. Keep the questions in that order.
 
 ### Expected output
 
-One whole run, with `yes`, `town`, `180`, `yes`, and `80` as the answers:
+One whole run, with `yes`, `180`, `yes`, `no`, `yes`, and `80` as the answers:
 
 ```text
 ==================================================
@@ -87,14 +112,14 @@ BEACON ON PIG HILL
 What is your name? JJ
 The sun is down over Pig Hill. Switch on the tower light? (yes/no): yes
 JJ, the tower light glows red over Meadville.
-Beacon signal confirmed.
-
-Headlights are moving on the roads below the tower.
-Which way do you aim the searchlight? (town/road/woods): town
-Three cars from campus, up here on a dare. All 3 flash their headlights back.
 
 What does the tower's wind gauge read, in km/h? (0-200): 180
-The tower groans in the gale. Anyone still on the hill should get down now.
+The tower groans in the gale. The light flashes the warning every driver in Meadville knows.
+
+Two points of light blink on at the tree line, low to the ground and too far apart to be a deer.
+Do they move when your light hits them? (yes/no): yes
+Do you hear anything from the trees? (yes/no): no
+You kill the light. Whatever is down there does not need to know where you are.
 
 Headlights flash from the bottom of the hill: your ride, asking if it is safe to come up.
 Do you know tonight's answer code? (yes/no): yes
@@ -104,15 +129,11 @@ You flash the code, and the truck starts up the hill.
 ==================================================
 TOWER LOG: JJ
 ==================================================
-Searchlight aimed: town
-Cars in sight: 3
+Tower light: LIT
 Wind reading: CRITICAL
+Tree line: NOT ALONE
 Final status: PICKED UP
 ```
-
-The narrative lines are yours to word. The log lines at the bottom, and the four status words
-`CRITICAL`, `HIGH`, `STEADY`, and `CALM`, have to match exactly, because the automated checks
-read them.
 
 ## Getting started
 
@@ -134,7 +155,7 @@ This lab is worth **4.5 points**, the standard value for a lab in this course.
 
 | Component | Points | What it measures |
 |:----------|:-------|:-----------------|
-| Programming | 3.0 | The 18 code checks below. Your score is the fraction passed, times 3.0 |
+| Programming | 3.0 | The 13 code checks below. Your score is the fraction passed, times 3.0 |
 | Code quality and style | 1.0 | Descriptive names (0.3), clear organization (0.3), useful comments (0.4) |
 | Summary writing | 0.5 | A complete, thoughtful `docs/summary.md` |
 | **Total** | **4.5** | |
@@ -147,16 +168,22 @@ Run the checks yourself, as many times as you like, before you submit:
 uv run gatorgrade --config gatorgrade.yml
 ```
 
-Eighteen of the checks are about your code:
+Each check's description says what to look at when it fails. Thirteen of the checks are about
+your code:
 
-* the tower light comes on for `"yes"` and stays dark for anything else
-* each of the three directions puts the right number of cars in sight
-* each of the four wind statuses comes out of the right range, including exactly `80`
-* you get picked up with the code and enough battery, stranded with the code alone, and left
-  behind without the code no matter how full the battery is
-* no `TODO` markers remain, and neither the word `for` nor the word `while` appears anywhere
+* the tower log names you, and the tower light logs `LIT` for `yes` and `DARK` for anything else
+* a reading of `180` is `CRITICAL`, and readings of exactly `150`, `80`, `20`, and `5` land in
+  the four statuses
+* one sign at the tree line, by itself, logs `NOT ALONE`; no sign logs `CLEAR`
+* with the code, the battery decides between `PICKED UP` and `STRANDED`; without the code, a
+  full battery still logs `LEFT BEHIND`
+* no `TODO` markers remain, there are at least six comments, one `if` joins two conditions with
+  `or` or `and`, one `if` sits inside another, and neither `for` nor `while` appears anywhere
 
-Partial credit is proportional: passing 15 of 18 checks earns `(15 ÷ 18) × 3.0 = 2.5` points.
+Partial credit is proportional: passing 10 of 13 checks earns `(10 ÷ 13) × 3.0 = 2.3` points.
+
+The remaining two checks look at `docs/summary.md`. They confirm the document is finished, and
+they count toward Summary writing below rather than toward these 3.0 points.
 
 > [!NOTE]
 > Automated results are preliminary. Your instructor sets the final grade.
@@ -185,11 +212,11 @@ Two things happen, with you present:
 The reviewer opens a **Code Review** issue on your repository and fills it out during the
 conversation. Come prepared to explain:
 
-* how the `if`/`else` decided whether the tower light lit or stayed dark
 * why a reading of `180` reaches the branch you meant it to reach, and what a different ordering
   of that chain would do to it
-* what the indentation of the ride home's inner `if` tells Python, and what changes if those
-  two checks sit side by side instead
+* which runs of the program would end differently if the tree line's `or` were an `and`
+* why the ride home is nested rather than written with `and`, and what changes if the inner `if`
+  is unindented to sit beside the outer one
 
 **Your review must be completed during the lab session on the day this lab is due.** If you
 cannot attend that lab and complete your review then, make arrangements to complete it

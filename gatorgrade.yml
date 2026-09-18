@@ -1,107 +1,91 @@
-- description: "[BEACON] Program runs and mentions your own name"
-  check: ExecuteCommand
-  options:
-    command: uv run pytest tests/test_beacon.py::test_program_runs_and_prints
+# Fifteen checks: eight run your program, five read src/main.py, two read docs/summary.md.
+# The eight program checks read only the tower log at the end of a run, never the story
+# lines, and they forgive extra spaces, letter case, and a missing colon.
 
-- description: "[BEACON] Turns the tower light on when asked"
+- description: "[BEACON] The tower log names you: TODO 1 saves the name, and TODO 10 prints TOWER LOG with it"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_beacon_on
+    command: uv run pytest tests/test_beacon.py::test_program_runs_and_log_names_you
 
-- description: "[BEACON] Leaves the tower dark when declined"
+- description: "[BEACON] Tower light logs LIT for yes and DARK for anything else: set `light` inside both branches, not after them"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_beacon_off
+    command: uv run pytest tests/test_beacon.py::test_tower_light_answers_yes_and_no
 
-- description: "[AIM] Aiming at town puts 3 cars in sight"
+- description: "[WIND] A reading of 180 comes out CRITICAL: test the strongest range first, or a weaker branch claims it"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_aim_town
+    command: uv run pytest tests/test_beacon.py::test_wind_strongest_reading_is_critical
 
-- description: "[AIM] Aiming at the road puts 1 car in sight"
+- description: "[WIND] Exactly 150, 80, 20, and 5 land in CRITICAL, HIGH, STEADY, CALM: each threshold is `>=`, not `>`"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_aim_road
+    command: uv run pytest tests/test_beacon.py::test_wind_each_threshold_is_inclusive
 
-- description: "[AIM] Any other answer aims at the woods and puts 2 cars in sight"
+- description: "[TREE LINE] One sign alone logs NOT ALONE: join the two answers with `or`, since `and` needs both"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_aim_woods
+    command: uv run pytest tests/test_beacon.py::test_tree_line_one_sign_alone_is_enough
 
-- description: "[WIND] A reading of 150 or more is CRITICAL"
+- description: "[TREE LINE] No sign logs CLEAR and both signs log NOT ALONE: the else sets `tree_line` too"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_wind_critical
+    command: uv run pytest tests/test_beacon.py::test_tree_line_clear_without_either_sign
 
-- description: "[WIND] A reading of 80 or more is HIGH"
+- description: "[RIDE] With the code, 80 percent logs PICKED UP and 10 percent logs STRANDED: the inner if/else decides"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_wind_high
+    command: uv run pytest tests/test_beacon.py::test_ride_charge_decides_once_the_code_is_known
 
-- description: "[WIND] A reading of 20 or more is STEADY"
+- description: "[RIDE] No code with a full battery logs LEFT BEHIND: the charge check must sit inside the code check"
   check: ExecuteCommand
   options:
-    command: uv run pytest tests/test_beacon.py::test_wind_steady
-
-- description: "[WIND] Anything below 20 is CALM"
-  check: ExecuteCommand
-  options:
-    command: uv run pytest tests/test_beacon.py::test_wind_calm
-
-- description: "[WIND] Exactly 80 counts as HIGH, not STEADY"
-  check: ExecuteCommand
-  options:
-    command: uv run pytest tests/test_beacon.py::test_wind_boundary_is_inclusive
-
-- description: "[RIDE] The code and enough charge together get you picked up"
-  check: ExecuteCommand
-  options:
-    command: uv run pytest tests/test_beacon.py::test_ride_picked_up_with_code_and_charge
-
-- description: "[RIDE] The code with too little charge strands you"
-  check: ExecuteCommand
-  options:
-    command: uv run pytest tests/test_beacon.py::test_ride_stranded_when_charge_is_low
-
-- description: "[RIDE] A full charge never answers the truck without the code"
-  check: ExecuteCommand
-  options:
-    command: uv run pytest tests/test_beacon.py::test_ride_left_behind_without_code
+    command: uv run pytest tests/test_beacon.py::test_ride_full_charge_never_answers_without_the_code
 
 - src/main.py:
-  - description: "[LOG] No TODO markers remain in main.py"
+  - description: "[CODE] No TODO markers remain: delete each TODO comment once its code is written, including Author"
     check: MatchFileFragment
     options:
       fragment: TODO
       count: 0
       exact: true
-  - description: "[LOG] Contains at least eight comments"
+  - description: "[CODE] At least six comments: explain why a decision is ordered or nested the way it is"
     check: CountSingleLineComments
     options:
       language: Python
-      count: 8
+      count: 6
       exact: false
-  - description: "[LOG] Conditionals only: the word `for` appears nowhere in main.py"
+  # One if (or elif) line whose condition joins two comparisons with `or` or `and`.
+  # Comment lines start with `#`, so a TODO that mentions the word cannot pass this.
+  - description: "[CODE] An if joins two conditions with `or` or `and`: the tree line is one if, not two"
     check: MatchFileRegex
     options:
-      regex: "\\bfor\\b"
-      count: 0
-      exact: true
-  - description: "[LOG] Conditionals only: the word `while` appears nowhere in main.py"
+      regex: "\\n[ \\t]*(if|elif)\\b[^\\n]*\\b(or|and)\\b[^\\n]*:"
+      count: 1
+      exact: false
+  # An if indented two levels inside main(), so it belongs to another block.
+  - description: "[CODE] One if sits inside another: the battery check is indented under the answer-code check"
     check: MatchFileRegex
     options:
-      regex: "\\bwhile\\b"
+      regex: "\\n( {8,}|\\t{2,})(if|elif)\\b"
+      count: 1
+      exact: false
+  # Greps the whole file, prose included, so neither word may appear even in a comment.
+  - description: "[CODE] Conditionals only, no `for` or `while`: write the three flashes out by hand, one line each"
+    check: MatchFileRegex
+    options:
+      regex: "\\b(for|while)\\b"
       count: 0
       exact: true
 
 - docs/summary.md:
-  - description: "[SUMMARY] The summary document contains no TODOs"
+  - description: "[SUMMARY] No TODO markers remain in docs/summary.md: replace each one with your answer, then delete it"
     check: MatchFileFragment
     options:
       fragment: TODO
       count: 0
       exact: true
-  - description: "[SUMMARY] The summary document meets the word count"
+  - description: "[SUMMARY] At least 150 words in docs/summary.md: answer every question in full sentences"
     check: CountFileWords
     options:
       count: 150

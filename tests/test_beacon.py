@@ -1,13 +1,21 @@
-"""Automated checks for Lab 2: Beacon on Pig Hill."""
+"""Automated checks for Lab 2: Beacon on Pig Hill.
 
+Every check reads the tower log at the end of the run, never the narrative
+lines, so the story is the student's to word. Log values are matched loosely:
+any amount of whitespace, any letter case, and the colon is optional, so
+`print("Tree line:", tree_line)`, `print("Tree line: " + tree_line)`, and
+`print(f"Tree line: {tree_line}")` all read the same.
+"""
+
+import re
 from unittest.mock import patch
 
 from main import main
 
 
-def run_with(name, beacon_on, direction, wind, has_code, charge, capsys):
+def run_with(name, switch_on, wind, moved, heard, has_code, charge, capsys):
     """Run main() once with a fixed sequence of answers and return what it printed."""
-    answers = [name, beacon_on, direction, str(wind), has_code, str(charge)]
+    answers = [name, switch_on, str(wind), moved, heard, has_code, str(charge)]
     # time.sleep is real here (mockro only mocks it under `import utime`), so
     # it is patched directly to keep the tests instant.
     with patch("builtins.input", side_effect=answers), patch("time.sleep", return_value=None):
@@ -17,82 +25,82 @@ def run_with(name, beacon_on, direction, wind, has_code, charge, capsys):
     return out
 
 
-def test_program_runs_and_prints(capsys):
-    out = run_with("JJ", "yes", "town", 50, "yes", 80, capsys)
+def log_value(out, label):
+    """Return the value printed after `label` in the tower log, normalized.
+
+    Only the part of the output from `TOWER LOG` onward is searched, so a
+    narrative line that happens to mention the tower light cannot be mistaken
+    for the log entry. Whitespace is collapsed, case is folded to upper, a
+    trailing period is dropped, and the colon after the label is optional.
+    Returns None when the log, or the label, was never printed.
+    """
+    start = out.upper().find("TOWER LOG")
+    if start < 0:
+        return None
+    match = re.search(rf"{label}\s*:?\s*([^\n]*)", out[start:], re.IGNORECASE)
+    if match is None:
+        return None
+    return " ".join(match.group(1).split()).upper().rstrip(".! ")
+
+
+# A run where every answer is the calm, safe one. Individual tests change
+# exactly the answers they are about.
+SAFE = dict(name="JJ", switch_on="yes", wind=50, moved="no", heard="no", has_code="yes", charge=80)
+
+
+def run(capsys, **changes):
+    answers = {**SAFE, **changes}
+    return run_with(capsys=capsys, **answers)
+
+
+def test_program_runs_and_log_names_you(capsys):
     # An untouched starter prints its provided framing text either way, so
-    # checking for the user's own name is what actually requires Stage One's
-    # TODOs to be done.
-    assert "JJ" in out
+    # checking for the user's own name in the log is what actually requires
+    # Stage One and the tower log to be done.
+    out = run(capsys)
+    assert log_value(out, "TOWER LOG") == "JJ"
 
 
-def test_beacon_on(capsys):
-    out = run_with("JJ", "yes", "town", 50, "yes", 80, capsys)
-    assert "glows" in out
+def test_tower_light_answers_yes_and_no(capsys):
+    assert log_value(run(capsys, switch_on="yes"), "Tower light") == "LIT"
+    assert log_value(run(capsys, switch_on="no"), "Tower light") == "DARK"
 
 
-def test_beacon_off(capsys):
-    out = run_with("JJ", "no", "town", 50, "yes", 80, capsys)
-    assert "dark" in out
+def test_wind_strongest_reading_is_critical(capsys):
+    # 180 satisfies every threshold in the chain, so only a chain that tests
+    # the strongest range first can report it correctly.
+    assert log_value(run(capsys, wind=180), "Wind reading") == "CRITICAL"
 
 
-def test_aim_town(capsys):
-    out = run_with("JJ", "yes", "town", 50, "yes", 80, capsys)
-    assert "Searchlight aimed: town" in out
-    assert "Cars in sight: 3" in out
+def test_wind_each_threshold_is_inclusive(capsys):
+    # Exactly the threshold belongs to the range it starts: "80 or more" is HIGH.
+    assert log_value(run(capsys, wind=150), "Wind reading") == "CRITICAL"
+    assert log_value(run(capsys, wind=80), "Wind reading") == "HIGH"
+    assert log_value(run(capsys, wind=20), "Wind reading") == "STEADY"
+    assert log_value(run(capsys, wind=5), "Wind reading") == "CALM"
 
 
-def test_aim_road(capsys):
-    out = run_with("JJ", "yes", "road", 50, "yes", 80, capsys)
-    assert "Searchlight aimed: road" in out
-    assert "Cars in sight: 1" in out
+def test_tree_line_one_sign_alone_is_enough(capsys):
+    # Either sign on its own has to be enough. A condition written with `and`
+    # instead of `or` passes only when both are present, and fails both of these.
+    assert log_value(run(capsys, moved="yes", heard="no"), "Tree line") == "NOT ALONE"
+    assert log_value(run(capsys, moved="no", heard="yes"), "Tree line") == "NOT ALONE"
 
 
-def test_aim_woods(capsys):
-    out = run_with("JJ", "yes", "woods", 50, "yes", 80, capsys)
-    assert "Searchlight aimed: woods" in out
-    assert "Cars in sight: 2" in out
+def test_tree_line_clear_without_either_sign(capsys):
+    assert log_value(run(capsys, moved="no", heard="no"), "Tree line") == "CLEAR"
+    assert log_value(run(capsys, moved="yes", heard="yes"), "Tree line") == "NOT ALONE"
 
 
-def test_wind_critical(capsys):
-    out = run_with("JJ", "yes", "town", 180, "yes", 80, capsys)
-    assert "Wind reading: CRITICAL" in out
+def test_ride_charge_decides_once_the_code_is_known(capsys):
+    assert log_value(run(capsys, has_code="yes", charge=80), "Final status") == "PICKED UP"
+    assert log_value(run(capsys, has_code="yes", charge=10), "Final status") == "STRANDED"
 
 
-def test_wind_high(capsys):
-    out = run_with("JJ", "yes", "town", 100, "yes", 80, capsys)
-    assert "Wind reading: HIGH" in out
-
-
-def test_wind_steady(capsys):
-    out = run_with("JJ", "yes", "town", 45, "yes", 80, capsys)
-    assert "Wind reading: STEADY" in out
-
-
-def test_wind_calm(capsys):
-    out = run_with("JJ", "yes", "town", 5, "yes", 80, capsys)
-    assert "Wind reading: CALM" in out
-
-
-def test_wind_boundary_is_inclusive(capsys):
-    # Exactly 80 belongs to HIGH, not STEADY: the test is "80 or more"
-    out = run_with("JJ", "yes", "town", 80, "yes", 80, capsys)
-    assert "Wind reading: HIGH" in out
-
-
-def test_ride_picked_up_with_code_and_charge(capsys):
-    out = run_with("JJ", "yes", "town", 50, "yes", 80, capsys)
-    assert "Final status: PICKED UP" in out
-
-
-def test_ride_stranded_when_charge_is_low(capsys):
-    out = run_with("JJ", "yes", "town", 50, "yes", 10, capsys)
-    assert "Final status: STRANDED" in out
-
-
-def test_ride_left_behind_without_code(capsys):
+def test_ride_full_charge_never_answers_without_the_code(capsys):
     # A full charge must not answer the truck on its own. Two separate ifs
     # sitting side by side would let it; the charge check has to be nested
     # inside the code check, so that it is never reached without the code.
-    out = run_with("JJ", "yes", "town", 50, "no", 100, capsys)
-    assert "Final status: LEFT BEHIND" in out
-    assert "Final status: PICKED UP" not in out
+    out = run(capsys, has_code="no", charge=100)
+    assert log_value(out, "Final status") == "LEFT BEHIND"
+    assert "PICKED UP" not in out.upper()

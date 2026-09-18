@@ -40,9 +40,9 @@ body:
       label: Code walkthrough
       description: Check each topic the author explained adequately
       options:
-        - label: "The author can explain how the if/else decided whether the tower light lit or stayed dark"
         - label: "The author can explain why the wind chain is ordered strongest first, and what a reading of 180 would do under a different ordering"
-        - label: "The author can explain what the indentation of the ride home's inner if tells Python, and what changes if the two checks sit side by side"
+        - label: "The author can explain which runs would end differently if the tree line's or were an and"
+        - label: "The author can explain why the ride home is nested rather than joined with and, and what changes if the inner if is unindented to sit beside the outer one"
         - label: "The author described their process well, communicating confidence and understanding of their own code"
   - type: textarea
     attributes:
