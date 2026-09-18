@@ -38,11 +38,12 @@ body:
   - type: checkboxes
     attributes:
       label: Code walkthrough
-      description: Check each topic the author explained adequately
+      description: Ask each question below about the author's own code, with the program running on their Pico. Check the box when the answer covers the point in parentheses.
       options:
-        - label: "The author can explain why the wind chain is ordered strongest first, and what a reading of 180 would do under a different ordering"
-        - label: "The author can explain which runs would end differently if the tree line's or were an and"
-        - label: "The author can explain how their ride home tells STRANDED from LEFT BEHIND, and how the other way of writing it (nested, or and with an elif) reaches the same endings"
+        - label: "Light the Tower. Run it with no. Which line turned the LED off, and which comparison chose that branch? (led.off() in the else, reached because switch_on == \"yes\" was False)"
+        - label: "The Wind Gauge. If the 20 or more test came first, what would 180 print, and why? (STEADY, because Python runs the first branch that is True and skips the rest, so the strongest test must come first)"
+        - label: "The Tree Line. If the or were an and, which of the four answer pairs would log differently? (the two pairs with one yes would log CLEAR instead of NOT ALONE, because and needs both)"
+        - label: "The Ride Home. With no code and a battery at 100, why LEFT BEHIND and not PICKED UP? (the battery is only consulted once the code is known: the charge check is indented inside the code check, or and needs both to hold)"
         - label: "The author described their process well, communicating confidence and understanding of their own code"
   - type: textarea
     attributes:

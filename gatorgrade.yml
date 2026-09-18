@@ -37,7 +37,7 @@
   options:
     command: uv run pytest tests/test_beacon.py::test_ride_charge_decides_once_the_code_is_known
 
-- description: "[RIDE] No code with a full battery logs LEFT BEHIND: the charge check must sit inside the code check"
+- description: "[RIDE] No code with a full battery logs LEFT BEHIND: the battery only counts once the code is known, so nest the charge check or put `and` on the pickup"
   check: ExecuteCommand
   options:
     command: uv run pytest tests/test_beacon.py::test_ride_full_charge_never_answers_without_the_code

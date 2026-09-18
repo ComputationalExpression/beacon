@@ -49,9 +49,9 @@ def main():
     # anything else: "CALM"
     # Order matters here. A reading of 180 is greater than every one of those
     # numbers, so whichever test you put first is the one that claims it
-    # In the CRITICAL branch only, also flash the light three times, 0.1
-    # seconds on and 0.1 seconds off each time: the warning every driver in
-    # Meadville knows
+    # In the CRITICAL branch only, also flash the light three times: the
+    # warning every driver in Meadville knows. One flash is led.on(),
+    # time.sleep(0.1), led.off(), time.sleep(0.1). Write it out three times
 
     # ===== Stage Three: The Tree Line =====
 
@@ -59,14 +59,14 @@ def main():
     print("Two points of light blink on at the tree line, low to the ground and too far apart to be a deer.")
 
     # TODO 6: ask two "yes"/"no" questions, in this order: do the points of
-    # light move when your light hits them (save it to `moved`), then do you
-    # hear anything from the trees (save it to `heard`)
+    # light move when your flashlight finds them (save the answer to `moved`),
+    # then do you hear anything from the trees (save it to `heard`)
 
     # TODO 7: either sign on its own means you are not alone up here, so
     # write ONE if whose condition joins the two answers with `or`
-    # if either is "yes": call led.off(), set a variable called `tree_line`
-    # to "NOT ALONE", and print what you do
-    # else: set `tree_line` to "CLEAR" and print what you tell yourself
+    # if either is "yes": call led.off() to kill the tower light, set a
+    # variable called `tree_line` to "NOT ALONE", and print a message
+    # else: set `tree_line` to "CLEAR" and print a message
 
     # ===== Stage Four: The Ride Home =====
 

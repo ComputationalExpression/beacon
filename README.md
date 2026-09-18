@@ -83,9 +83,9 @@ claims it. The `CRITICAL` branch also flashes the light three times, the warning
 Meadville knows.
 
 **Stage Three: The Tree Line.** Two points of light blink on at the tree line below you, low to
-the ground and too far apart to be a deer. Do they move when your light hits them? Do you hear
-anything from the trees? Either sign on its own means you are not alone up here, so this is one
-`if` whose condition joins the two answers with `or`. When it holds, you kill the light.
+the ground and too far apart to be a deer. Do they move when your flashlight finds them? Do you
+hear anything from the trees? Either sign on its own means you are not alone up here, so this is
+one `if` whose condition joins the two answers with `or`. When it holds, you kill the tower light.
 
 **Stage Four: The Ride Home.** Headlights flash from the bottom of the hill: your ride, asking
 whether it is safe to come up. You can answer only when you know tonight's answer code *and* the
@@ -133,9 +133,9 @@ What does the tower's wind gauge read, in km/h? (0-200): 180
 The tower groans in the gale. The light flashes the warning every driver in Meadville knows.
 
 Two points of light blink on at the tree line, low to the ground and too far apart to be a deer.
-Do they move when your light hits them? (yes/no): yes
+Do they move when your flashlight finds them? (yes/no): yes
 Do you hear anything from the trees? (yes/no): no
-You kill the light. Whatever is down there does not need to know where you are.
+You kill the tower light. Whatever is down there does not need to know where you are.
 
 Headlights flash from the bottom of the hill: your ride, asking if it is safe to come up.
 Do you know tonight's answer code? (yes/no): yes
@@ -184,8 +184,10 @@ Run the checks yourself, as many times as you like, before you submit:
 uv run gatorgrade --config gatorgrade.yml
 ```
 
-Each check's description says what to look at when it fails. Thirteen of the checks are about
-your code:
+Each check's description says what to look at when it fails. Under a failed check, gatorgrade
+also prints a `uv run pytest ...` command. Run it: the last lines name the log line that came
+out wrong, what it said, what was expected, and the answers that were typed. Thirteen of the
+checks are about your code:
 
 * the tower log names you, and the tower light logs `LIT` for `yes` and `DARK` for anything else
 * a reading of `180` is `CRITICAL`, and readings of exactly `150`, `80`, `20`, and `5` land in
@@ -227,13 +229,16 @@ Two things happen, with you present:
 2. **You answer questions about your own code**, including the concepts behind it
 
 The reviewer opens a **Code Review** issue on your repository and fills it out during the
-conversation. Come prepared to explain:
+conversation. The reviewer will ask you, in your own code:
 
-* why a reading of `180` reaches the branch you meant it to reach, and what a different ordering
-  of that chain would do to it
-* which runs of the program would end differently if the tree line's `or` were an `and`
-* how your ride home tells `STRANDED` from `LEFT BEHIND`, and how the other way of writing it
-  (nested, or `and` with an `elif`) reaches the same three endings
+* **Light the Tower**: with `no` as the answer, which line turned the LED off, and which
+  comparison chose that branch
+* **The Wind Gauge**: what a reading of `180` would print if the `20 or more` test came first,
+  and why
+* **The Tree Line**: which of the four answer pairs would log differently if the `or` were an
+  `and`
+* **The Ride Home**: why no code with a battery at `100` ends `LEFT BEHIND` and not `PICKED UP`,
+  in your version, whether it nests or uses `and`
 
 **Your review must be completed during the lab session on the day this lab is due.** If you
 cannot attend that lab and complete your review then, make arrangements to complete it
