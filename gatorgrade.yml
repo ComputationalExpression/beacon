@@ -71,11 +71,12 @@
       regex: "\\n( {8,}|\\t{2,})(if|elif)\\b|\\n[ \\t]*(if|elif)\\b[^\\n]*\\band\\b[^\\n]*:"
       count: 1
       exact: false
-  # Greps every line of the file, prose included, so neither word may appear even in a comment.
-  - description: "[CODE] Conditionals only, no `for` or `while`: write the three flashes out by hand, one line each"
+  # Anchored to the start of a line, so only a loop statement matches: the words are free to
+  # appear in the story text and in comments.
+  - description: "[CODE] Conditionals only, no `for` or `while` loop: write the three flashes out by hand, one line each"
     check: MatchFileRegex
     options:
-      regex: "\\b(for|while)\\b"
+      regex: "\\n[ \\t]*(for|while)\\b"
       count: 0
       exact: true
 

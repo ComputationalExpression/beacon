@@ -72,6 +72,11 @@ before it is due.
 Everything this lab asks for is covered by Monday of Week 5. There is no loop anywhere in it:
 each stage is a decision, and decisions are all you need.
 
+**The story is yours to change.** Every message the program prints is your wording, and you
+may rewrite the night on the hill however you like. Two things stay fixed, because the
+automated checks depend on them: the questions are asked in the order the starter lists them,
+and the tower log at the end keeps its labels and status words.
+
 **Stage One: Light the Tower.** Ask the user's name and whether to switch on the tower light now
 that the sun is down. An `if`/`else` calls `led.on()` or `led.off()`, prints a message, and
 records `LIT` or `DARK` for the log.
@@ -98,7 +103,7 @@ the code alone. Both reach the same three endings.
 ### The tower log
 
 The program ends with a log, and the automated checks read **only the log**, never the story.
-Word every message above however you like. The log has six lines, in this order:
+The log has six lines, in this order:
 
 ```text
 TOWER LOG: JJ
@@ -197,7 +202,7 @@ checks are about your code:
   full battery still logs `LEFT BEHIND`
 * no `TODO` markers remain, there are at least six comments, one `if` joins two conditions with
   `or` or `and`, the ride home is either one `if` inside another or one `if` with `and`, and
-  neither `for` nor `while` appears anywhere
+  there is no `for` or `while` loop
 
 Partial credit is proportional: passing 10 of 13 checks earns `(10 ÷ 13) × 3.0 = 2.3` points.
 

@@ -7,6 +7,9 @@ the radio tower above Meadville, on the hill everyone calls Pig Hill, and
 tonight you are the one keeping it lit. Every decision you make up there, the
 light answers.
 
+Every message this program prints is yours to word, and the story is yours to
+change. The automated checks read only the tower log at the end.
+
 Author: TODO
 """
 
